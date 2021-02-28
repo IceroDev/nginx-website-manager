@@ -29,6 +29,7 @@ $ ./nginx-website-manager.sh
 
 <h1 align="center">2. Contribuer au projet.</h1>
 N'hésitez pas à faire des pull request avec vos versions modifiées du programme !
+
 Ce programme vous à aidé ? N'oubliez pas de mettre une ⭐, ça fait toujours plaisir :)
 
 <h1 align="center">Captures d'écran.</h1>
