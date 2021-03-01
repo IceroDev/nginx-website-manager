@@ -20,6 +20,10 @@
 ⚠️ Si comme sur cet exemple vous utilisiez une zone DNS de Cloudflare, faites attention à bien mettre le proxy status sur "DNS only"
 
 ```
+# Télécharger le script et aller dans le dossier du projet
+$ git clone https://github.com/IceroDev/nginx-website-manager.git
+$ cd nginx-website-manager
+#
 # Rendre le script exectutable
 $ chmod +x nginx-website-manager.sh
 #
