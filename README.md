@@ -12,6 +12,20 @@
 * ✔️ Supprimer des certificats SSL
 * ✔️ Renouveller des certificats SSL
 * ❌ Renouveller automatiquement des certificats SSL
+<h1>Compatibilité</h1>
+
+| OS               | Version | Compatible ?       | Testé ?     |
+| ---------------- | ------- | ------------------ | ----------- |
+| Ubuntu           | 14.04   | :white_check_mark: | Non         |
+|                  | 16.04   | :white_check_mark: | Non         |
+|                  | 18.04   | :white_check_mark: | Oui         |
+|                  | 20.04   | :white_check_mark: | Oui         |
+| Debian           | 8       | :white_check_mark: | Non         |
+|                  | 9       | :white_check_mark: | Oui         |
+|                  | 10      | :white_check_mark: | Oui         |
+| CentOS           | All     | :red_circle:       | Non         |
+| Windows          | All     | :red_circle:       | Non         |
+| MacOS            | All     | :red_circle:       | Non         |
 
 <h1 align="center">1. Utilisation.</h1>
 <h2 align="center">1.1. Créez un enregistrement de type A vers votre serveur</h2>
