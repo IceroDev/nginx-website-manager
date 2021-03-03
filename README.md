@@ -44,6 +44,10 @@ $ chmod +x nginx-website-manager.sh
 # Lancer le script
 $ ./nginx-website-manager.sh
 ```
+Ou en une commande :
+```
+$ curl -O https://raw.githubusercontent.com/IceroDev/nginx-website-manager/main/nginx-website-manager.sh && chmod +x nginx-website-manager.sh && ./nginx-website-manager.sh
+```
 
 <h1 align="center">2. Contribuer au projet.</h1>
 N'hésitez pas à faire des pull request avec vos versions modifiées du programme !
