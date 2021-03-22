@@ -13,7 +13,7 @@ echo -e "\nQue voulez vous faire ?\n\n1) Installer un hébergement web\n2) Insta
 read -rp "(1/3) ~" -e qvvf
 
 if [ $qvvf == "1" ]; then
-
+    apt install sudo
     echo -e "Vérification de l'installation de NGINX..."
     sleep 3
     if ! [ -x "$(command -v nginx)" ]; then
@@ -24,6 +24,21 @@ if [ $qvvf == "1" ]; then
         systemctl start nginx
     fi
     echo "Nginx est installé."
+    
+    echo -e "Vérification de l'installation de php 7.4..."
+    sleep 3
+    if ! [ -x "$(command -v php)" ]; then
+        echo -e "Php n'est pas installé. Installation de php et mise à jour du serveur ..."
+        sleep 3
+        sudo apt update && apt upgrade -y
+        sudo apt -y install lsb-release apt-transport-https ca-certificates 
+        sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+        echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+        sudo apt update
+        sudo apt -y install php7.4
+        sudo apt -y install php7.4-fpm
+    fi
+    echo "Php est installé."
     read -rp "Quel domaine/sous-domaine souhaitez vous héberger ? " -e domain
 
     mkdir /var/www/html/$domain
@@ -69,7 +84,7 @@ elif [ $qvvf == "2" ]; then
         sudo certbot delete --cert-name $domain
         rm /etc/nginx/sites-available/$domain
         rm /etc/nginx/sites-enabled/$domain
-        echo -e "server {\n        listen 80;\n        listen [::]:80;\n        root /var/www/html/$domain;\n        index index.html index.htm;\n        server_name $domain;\n\n   location / {\n       try_files \$uri \$uri/ =404;\n   }\n\n}" >/etc/nginx/sites-available/$domain
+        echo -e "server {\n        listen 80;\n        listen [::]:80;\n        root /var/www/html/$domain;\n        index index.html index.htm index.php;\n        server_name $domain;\n\n   location / {\n       try_files \$uri \$uri/ =404;\n   }\n   location ~ \.php$ {\n               include snippets/fastcgi-php.conf;\n               fastcgi_pass unix:/run/php/php7.4-fpm.sock;\n        }\n}" >/etc/nginx/sites-available/$domain
         ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/
         systemctl restart nginx
     else
