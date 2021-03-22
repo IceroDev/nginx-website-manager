@@ -44,7 +44,7 @@ if [ $qvvf == "1" ]; then
     mkdir /var/www/html/$domain
     echo -e "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\">\n\n<style type=\"text/css\">\n      body { text-align: center; padding: 150px; }\n      h1 { font-size: 40px; }\n      body { font: 20px Helvetica, sans-serif; color: rgb(0, 0, 0); }\n      #article { display: block; text-align: left; width: 650px; margin: 0 auto; }\n      a { color: #542d9c; text-decoration: none; }\n      a:hover { color: #6f42c1; text-decoration: none; }\n    </style>\n</head>\n\n<body>\n	<img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1200px-Octicons-mark-github.svg.png\" alt=\"logo\" style=\"width:15%\">\n<div id=\"article\">\n<h1>Hébergement en ligne !</h1>\n<div>\n<p style=\"height:50%\">Merci d'avour utilisé mon outil d'installation !<br>\nLes fichiers de votre hébergement web se situent dans le dossier /var/www/html/$domain de votre serveur\n</p>\n<p>Bon Coding !</p>\n  <p>&mdash; <strong>Jean Staffe</strong></p>\n</div>\n</div>\n</body>\n</html>" >/var/www/html/$domain/index.html
     chown -R www-data:www-data /var/www/html/$domain
-    echo -e "server {\n        listen 80;\n        listen [::]:80;\n        root /var/www/html/$domain;\n        index index.html index.htm;\n        server_name $domain;\n\n   location / {\n       try_files \$uri \$uri/ =404;\n   }\n\n}" >/etc/nginx/sites-available/$domain
+    echo -e "server {\n        listen 80;\n        listen [::]:80;\n        root /var/www/html/$domain;\n        index index.html index.htm index.php;\n        server_name $domain;\n\n   location / {\n       try_files \$uri \$uri/ =404;\n   }\n   location ~ \.php\$ {\n               include snippets/fastcgi-php.conf;\n               fastcgi_pass unix:/run/php/php7.4-fpm.sock;\n        }\n}" >/etc/nginx/sites-available/$domain
     rm /etc/nginx/sites-enabled/$domain
     ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/
     systemctl restart nginx
@@ -84,7 +84,7 @@ elif [ $qvvf == "2" ]; then
         sudo certbot delete --cert-name $domain
         rm /etc/nginx/sites-available/$domain
         rm /etc/nginx/sites-enabled/$domain
-        echo -e "server {\n        listen 80;\n        listen [::]:80;\n        root /var/www/html/$domain;\n        index index.html index.htm index.php;\n        server_name $domain;\n\n   location / {\n       try_files \$uri \$uri/ =404;\n   }\n   location ~ \.php$ {\n               include snippets/fastcgi-php.conf;\n               fastcgi_pass unix:/run/php/php7.4-fpm.sock;\n        }\n}" >/etc/nginx/sites-available/$domain
+        echo -e "server {\n        listen 80;\n        listen [::]:80;\n        root /var/www/html/$domain;\n        index index.html index.htm index.php;\n        server_name $domain;\n\n   location / {\n       try_files \$uri \$uri/ =404;\n   }\n   location ~ \.php\$ {\n               include snippets/fastcgi-php.conf;\n               fastcgi_pass unix:/run/php/php7.4-fpm.sock;\n        }\n}" >/etc/nginx/sites-available/$domain
         ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/
         systemctl restart nginx
     else
